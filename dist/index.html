@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Recipe-box</title>
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+    <body>
+    	<h1>Create you recipe-box</h1>
+		<button id = ="getRecipies">add to mongo</button>
+		<table style="width:100%" id="t_recipe" border="1">
+			<tr>
+				<th>Recipe</th>
+				<th colspan="2">Ingredient</th>
+			</tr>
+		</table>
+		<script>
+			var tr;
+			var data;
+			$("button").click(function(){
+				$.ajax({url: "http://localhost:3000/recipes", data:{}, success: function(result){
+					data=result;
+					console.log(data);
+					var tr;
+					for (var i = 0; i < data.length; i++) {
+						tr = $('<tr/>');
+						tr.append("<td>" + data[i].name + "</td>");
+						var ing = '';
+						for (var j = 0; j < data[i].ingredients.length; j++) {
+							ing  = ing + data[i].ingredients[j].name + ": \t" +  data[i].ingredients[j].amount + "<br/>";
+						}
+						tr.append("<td>" + ing + "</td>");
+						$('table').append(tr);
+					}
+				}});
+			});
+		</script>
+	</body>
+</html>
