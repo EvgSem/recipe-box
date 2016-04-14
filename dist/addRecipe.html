@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new Recipe-box</title>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+    <h1>Add new recipe-box</h1>
+        <ul>
+            <li>
+                <label for="recipe">Name</label>
+                <input type="text" id="recipe"/>
+            </li>
+        </ul>
+
+    <button id = ="addRecipe">Add recipe</button>
+    <script>
+        $("button").click(function(){
+            var recipeName= document.getElementById('recipe').value;
+            $.ajax({
+                url: '/addRecipe',
+                type: 'POST',
+                data: JSON.stringify({'name':recipeName}),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (resp) {
+                    console.log("s!!!!!!!!!!!");
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+            window.location.href="/index.html";
+        });
+    </script>
+</body>
+</html>

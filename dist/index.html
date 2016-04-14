@@ -5,9 +5,11 @@
 	<title>Recipe-box</title>
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
-    <body>
+    <body onload="loadPage()">
     	<h1>Create you recipe-box</h1>
-		<button id = ="getRecipies">add to mongo</button>
+		<form method="get" action="/addRecipe.html">
+			<button type="submit">Add new recipe</button>
+		</form>
 		<table style="width:100%" id="t_recipe" border="1">
 			<tr>
 				<th>Recipe</th>
@@ -17,10 +19,9 @@
 		<script>
 			var tr;
 			var data;
-			$("button").click(function(){
+			function loadPage (){
 				$.ajax({url: "http://localhost:3000/recipes", data:{}, success: function(result){
 					data=result;
-					console.log(data);
 					var tr;
 					for (var i = 0; i < data.length; i++) {
 						tr = $('<tr/>');
@@ -33,7 +34,7 @@
 						$('table').append(tr);
 					}
 				}});
-			});
+			};
 		</script>
 	</body>
 </html>

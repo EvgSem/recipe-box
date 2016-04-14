@@ -28,16 +28,17 @@
   "author": "Blake Johnston",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.15.0",
     "chai": "^3.5.0",
     "dotenv": "^1.2.0",
     "express": "^4.13.4",
     "express-session": "^1.11.3",
+    "jquery": "^2.2.1",
     "mocha": "^2.4.5",
     "mongoose": "^4.1.0",
     "passport": "^0.3.0",
     "passport-github": "^1.0.0",
-    "string": "^3.3.1",
-    "jquery": "^2.2.1"
+    "string": "^3.3.1"
   },
   "devDependencies": {
     "babel": "^5.8.38",
@@ -50,6 +51,6 @@
     "express": "^4.13.3",
     "nodemon": "^1.9.1",
     "resource-router-middleware": "^0.5.1",
-    "mongodb":"^2.1.16"
+    "mongodb": "^2.1.16"
   }
 }
