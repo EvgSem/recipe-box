@@ -1,11 +1,11 @@
 "use strict";
 require('babel/register');
 const express = require('express');
-const recipeRepository = require('./src/recipe-repository.js');
-const recipe = require('./src/recipe.js');
-const mongo = require('./src/mongo.js');
+const recipeRepository = require('./recipe-repository.js');
+const recipe = require('./recipe.js');
+const mongo = require('./mongo.js');
 var bodyParser = require('body-parser');
-const db = require('./src/db.js');
+const db = require('./db.js');
 var mongoose = require('mongoose');
 
 const app = express();
