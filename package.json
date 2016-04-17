@@ -8,7 +8,7 @@
     "url": "git+https://github.com/johnstonbl01/clementinejs-fcc.git"
   },
   "scripts": {
-    "start": "node server.js",
+    "start": "node index.js",
     "test.watch": "mocha --watch",
     "lint": "eslint *.js"
   },

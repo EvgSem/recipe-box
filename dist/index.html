@@ -12,8 +12,10 @@
 		</form>
 		<table style="width:100%" id="t_recipe" border="1">
 			<tr>
+				<th>id</th>
 				<th>Recipe</th>
-				<th colspan="2">Ingredient</th>
+				<th>Ingredient</th>
+				<th colspan="2">Edit/Delete</th>
 			</tr>
 		</table>
 		<script>
@@ -25,14 +27,22 @@
 					var tr;
 					for (var i = 0; i < data.length; i++) {
 						tr = $('<tr/>');
-						tr.append("<td>" + data[i].name + "</td>");
-						var ing = '';
+						tr.append("<td class='id'>" + data[i]._id + "</td>");
+						tr.append("<td id='name'>" + data[i].name + "</td>");
+						var ingredients = '';
 						for (var j = 0; j < data[i].ingredients.length; j++) {
-							ing  = ing + data[i].ingredients[j].name + ": \t" +  data[i].ingredients[j].amount + "<br/>";
+							ingredients  = ingredients + data[i].ingredients[j].name + ": \t" +  data[i].ingredients[j].amount + "<br/>";
 						}
-						tr.append("<td>" + ing + "</td>");
+						tr.append("<td id='ingredients'>" + ingredients + "</td>");
+						tr.append("<td>"+"<button type='button' class='show'>Show</button>"+"</td>");
+						tr.append("<td>"+"<button type='button' class='edit'>Delete</button>"+"</td>");
 						$('table').append(tr);
 					}
+
+					$(".show").click(function() {
+						var recipeID = $(this).closest("tr").find(".id").text();
+						console.log(recipeID);
+					});
 				}});
 			};
 		</script>

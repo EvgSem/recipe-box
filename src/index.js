@@ -1,38 +1,39 @@
-"use strict";
-require('babel/register');
-const express = require('express');
-const recipeRepository = require('./recipe-repository.js');
-const recipe = require('./recipe.js');
-const mongo = require('./mongo.js');
-var bodyParser = require('body-parser');
-const db = require('./db.js');
-var mongoose = require('mongoose');
-
+import {recipeSchema, recipeModel, Recipe, Ingrgedient} from './recipe.js';
+import {createConnection} from './db.js';
+import express from 'express';
+import mongoose from 'mongoose';
+const bodyParser = require('body-parser');
 const app = express();
 
 app.use(bodyParser.json({ type: 'application/json' }));
 app.use(express.static('./dist'));
 
 app.get('/recipes', function (req, res) {
-    recipeRepository.findAll(function(recipes){
+    let recipes=[];
+    let promise = new Promise(function(resolve) {
+        recipeModel.find({}, function (err, recipeSchema) {
+            recipeSchema.forEach(function (recipe) {
+                recipes.push(recipe);
+            });
+            resolve(recipes);
+        });
+    });
+    promise.then(function(recipes){
         res.send(recipes);
     });
 });
 
 app.post('/addRecipe', function (req, res) {
-    var recipeCollection = db.getRecipeCollection();
-    var Recipe = mongoose.model('BeefRecipe', recipeCollection);
-    var newRecipe = new Recipe({name: req.body.name, ingredients: []});
-    recipeRepository.addDocument(newRecipe);
+    let Recipe = mongoose.model('BeefRecipe', recipeSchema);
+    let newRecipe = new Recipe({name: req.body.name, ingredients: []});
+    newRecipe.save(function (err) {
+        if (err) return console.error(err);
+    });
     res.status(200);
 });
 
 
-db.createConnection(function(){
-    mongo.saveDataInDatabase();
-    //recipeRepository.findAll(function(recipes){
-    //    console.log(recipes);
-    //});
+createConnection(function(){
     app.listen(3000, function () {
         console.log('server started');
     });

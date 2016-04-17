@@ -1,14 +1,20 @@
-"use strict";
-require('babel/register');
+import mongoose from 'mongoose';
 
-class Ingrgedient {
+export const recipeSchema = mongoose.Schema({
+    name:    String,
+    ingredients: []
+}, { collection: 'recipes' });
+
+export const recipeModel = mongoose.model('recipeModel', recipeSchema);
+
+export class Ingrgedient {
     constructor(name, account){
         this.name = name;
         this.amount = account;
     }
 };
 
-class Recipe {
+export class Recipe {
     constructor() {
         this.name = '';
         this.ingredients = []
@@ -18,9 +24,6 @@ class Recipe {
         this.ingredients.push(ingredient);
     }
 };
-
-module.exports.Ingrgedient = Ingrgedient;
-module.exports.Recipe = Recipe;
 
 
 
