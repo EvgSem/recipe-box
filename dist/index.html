@@ -6,16 +6,17 @@
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
     <body onload="loadPage()">
-    	<h1>Create you recipe-box</h1>
+    	<h1>Create you recipe-box</h1><br>
 		<form method="get" action="/addRecipe.html">
 			<button type="submit">Add new recipe</button>
 		</form>
-		<table style="width:100%" id="t_recipe" border="1">
+		<br>
+		<table id="t_recipe" border="1">
 			<tr>
 				<th>id</th>
 				<th>Recipe</th>
 				<th>Ingredient</th>
-				<th colspan="2">Edit/Delete</th>
+				<th>View</th>
 			</tr>
 		</table>
 		<script>
@@ -35,12 +36,12 @@
 						}
 						tr.append("<td id='ingredients'>" + ingredients + "</td>");
 						tr.append("<td>"+"<button type='button' class='show'>Show</button>"+"</td>");
-						tr.append("<td>"+"<button type='button' class='edit'>Delete</button>"+"</td>");
 						$('table').append(tr);
 					}
 
 					$(".show").click(function() {
 						var recipeID = $(this).closest("tr").find(".id").text();
+						window.location.href='/showRecipe.html?id=' + recipeID;
 						console.log(recipeID);
 					});
 				}});

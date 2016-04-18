@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--<meta http-equiv="refresh" content="0; url='/index.html'" />-->
+    <title>Show Recipe-box</title>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body onload="loadPage()">
+    <a href='/index.html'>back to all recipes</a>
+    <h1 id="recipeName">Show recipe-box</h1>
+    <button type='button' class='edit'>Edit</button>
+    <button type='button' class='delete'>Delete</button>
+    <br>
+    <table id="t_ingredients" border="1">
+        <tr>
+            <th>ingredient</th>
+            <th>amount</th>
+        </tr>
+    </table>
+    <br>
+<script>
+    function loadPage (){
+        var recipeID = location.search.split('id=')[1];
+        let promise = new Promise(function(resolve) {
+            $.ajax({
+                url: 'http://localhost:3000/recipe?id=' + recipeID,
+                type: 'GET',
+                success: function(result){
+                    data=result;
+                    console.log("here2");
+                    resolve(data);
+                }
+            });
+        });
+        promise.then(function(recipe){
+            document.getElementById("recipeName").innerHTML=recipe.name;
+            var tr;
+            for (var i = 0; i <= recipe.ingredients.length; i++) {
+                tr = $('<tr/>');
+                tr.append("<td id='name'>" + recipe.ingredients[i].name + "</td>");
+                tr.append("<td id='amount'>" + recipe.ingredients[i].amount + "</td>");
+                $('table').append(tr);
+            }
+        });
+        $(".edit").click(function() {
+            window.location.href='/editRecipe.html?id=' + recipeID;
+        });
+        $(".delete").click(function() {
+            let promise = new Promise(function(resolve) {
+                $.ajax({
+                    url: 'http://localhost:3000/deleteRecipe?id=' + recipeID,
+                    type: 'GET',
+                    success: function(result){
+                        data=result;
+                        resolve(data);
+                    }
+                });
+            });
+            promise.then(function(result){
+                window.location.href='/index.html';
+                console.log(result);
+            });
+
+        });
+    };
+</script>
+</body>
+</html>
