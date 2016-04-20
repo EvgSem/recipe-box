@@ -5,47 +5,47 @@
 	<title>Recipe-box</title>
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
-    <body onload="loadPage()">
-    	<h1>Create you recipe-box</h1><br>
-		<form method="get" action="/addRecipe.html">
-			<button type="submit">Add new recipe</button>
-		</form>
-		<br>
-		<table id="t_recipe" border="1">
-			<tr>
-				<th>id</th>
-				<th>Recipe</th>
-				<th>Ingredient</th>
-				<th>View</th>
-			</tr>
-		</table>
-		<script>
+<body onload="loadPage()">
+<h1>Create you recipe-box</h1><br>
+<form method="get" action="/addRecipe.html">
+	<button type="submit">Add new recipe</button>
+</form>
+<br>
+<table id="t_recipe" border="1">
+	<tr>
+		<th>id</th>
+		<th>Recipe</th>
+		<th>Ingredient</th>
+		<th>View</th>
+	</tr>
+</table>
+<script>
+	var tr;
+	var data;
+	function loadPage (){
+		$.ajax({url: "http://localhost:3000/recipes", data:{}, success: function(result){
+			data=result;
 			var tr;
-			var data;
-			function loadPage (){
-				$.ajax({url: "http://localhost:3000/recipes", data:{}, success: function(result){
-					data=result;
-					var tr;
-					for (var i = 0; i < data.length; i++) {
-						tr = $('<tr/>');
-						tr.append("<td class='id'>" + data[i]._id + "</td>");
-						tr.append("<td id='name'>" + data[i].name + "</td>");
-						var ingredients = '';
-						for (var j = 0; j < data[i].ingredients.length; j++) {
-							ingredients  = ingredients + data[i].ingredients[j].name + ": \t" +  data[i].ingredients[j].amount + "<br/>";
-						}
-						tr.append("<td id='ingredients'>" + ingredients + "</td>");
-						tr.append("<td>"+"<button type='button' class='show'>Show</button>"+"</td>");
-						$('table').append(tr);
-					}
+			for (var i = 0; i < data.length; i++) {
+				tr = $('<tr/>');
+				tr.append("<td class='id'>" + data[i]._id + "</td>");
+				tr.append("<td id='name'>" + data[i].name + "</td>");
+				var ingredients = '';
+				for (var j = 0; j < data[i].ingredients.length; j++) {
+					ingredients  = ingredients + data[i].ingredients[j].name + ": \t" +  data[i].ingredients[j].amount + "<br/>";
+				}
+				tr.append("<td id='ingredients'>" + ingredients + "</td>");
+				tr.append("<td>"+"<button type='button' class='show'>Show</button>"+"</td>");
+				$('table').append(tr);
+			}
 
-					$(".show").click(function() {
-						var recipeID = $(this).closest("tr").find(".id").text();
-						window.location.href='/showRecipe.html?id=' + recipeID;
-						console.log(recipeID);
-					});
-				}});
-			};
-		</script>
-	</body>
+			$(".show").click(function() {
+				var recipeID = $(this).closest("tr").find(".id").text();
+				window.location.href='/showRecipe.html?id=' + recipeID;
+				console.log(recipeID);
+			});
+		}});
+	};
+</script>
+</body>
 </html>

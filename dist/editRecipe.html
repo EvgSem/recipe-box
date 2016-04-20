@@ -9,44 +9,90 @@
     <h1 id="recipeName">Edit recipe-box</h1>
     <label for="name">Name</label>
     <input type="text" id="name"/>
-    <button id = ="save">Save</button>
-<script>
-    function loadPage (){
-        var recipeID = location.search.split('id=')[1];
-        let promise = new Promise(function(resolve) {
-            console.log("here1");
-            $.ajax({
-                url: 'http://localhost:3000/recipe?id=' + recipeID,
-                type: 'GET',
-                success: function(result){
-                    data=result;
-                    console.log("here2");
-                    resolve(data);
-                }
+    <button class = "save">Save</button>
+    <br>
+    <table id="t_ingredients" border="1">
+        <tr>
+            <th>ingredient</th>
+            <th>amount</th>
+        </tr>
+        <button class = "addIngredient">add ingredient</button>
+    </table>
+    <script>
+        function loadPage (){
+            var recipeID = location.search.split('id=')[1];
+            let promise = new Promise(function(resolve) {
+                console.log("here1");
+                $.ajax({
+                    url: 'http://localhost:3000/recipe?id=' + recipeID,
+                    type: 'GET',
+                    success: function(result){
+                        data=result;
+                        console.log("here2");
+                        resolve(data);
+                    }
+                });
             });
-        });
-        promise.then(function(recipe){
-            console.log("ad");
-           document.getElementById("name").value = recipe.name;
-        });
-        $("button").click(function(){
-            let newName = document.getElementById("name").value;
-            $.ajax({
-                url: '/editRecipe',
-                type: 'POST',
-                data: JSON.stringify({'id':recipeID, 'name':newName}),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function (resp) {
-                    console.log("s!!!!!!!!!!!");
-                },
-                error: function (error) {
-                    console.log(error);
+            promise.then(function(recipe){
+                console.log("ad");
+                document.getElementById("name").value = recipe.name;
+                let tr;
+                for (var i = 0; i < recipe.ingredients.length; i++) {
+                    tr = $('<tr/>');
+                    tr.append($("<td>").append($("<input  type ='text' id='name'/>")));
+                    tr.append($("<td>").append($("<input  type ='text' id='amount'/>")));
+                    $('table').append(tr);
                 }
+
             });
-            window.location.href='/showRecipe.html?id=' + recipeID;
+            $(".save").click(function(){
+                console.log("sdfsdfsdf");
+                let newName = document.getElementById("name").value;
+                let ingredientsTable = document.getElementById("t_ingredients");
+                let ingredientsRows = $('tr', ingredientsTable);
+                let ingredients = [];
+                let ingredient;
+                let name;
+                let amount;
+                for (var i = 1; i < ingredientsRows.length; i++) {
+                    var promise = new Promise(function(resolve, reject) {
+                        name = ingredientsRows[i].querySelector("#name").innerHTML;
+                        amount = ingredientsRows[i].querySelector("#amount").innerHTML;
+                        console.log("NAME1"+name);
+                        resolve(name);
+                    });
+                    promise.then(function(name1){
+                        ingredient ={"name":name1, "amount":"3"} ;
+                        console.log("NAME"+name1);
+                        ingredients.push(ingredient);
+                        console.log(ingredients);
+                    });
+
+                }
+                //console.log(ingredients);
+                $.ajax({
+                    url: '/editRecipe',
+                    type: 'POST',
+                    data: JSON.stringify({'id':recipeID, 'name':newName}),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (resp) {
+                        console.log("success");
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+               // window.location.href='/showRecipe.html?id=' + recipeID;
+            });
+        };
+
+        $(".addIngredient").click(function() {
+            let tr = $('<tr/>');
+            tr.append($("<td>").append($("<input  type ='text' id='name'/>")));
+            tr.append($("<td>").append($("<input  type ='text' id='amount'/>")));
+            $('table').append(tr);
         });
-    };
-</script>
+    </script>
 </body>
 </html>

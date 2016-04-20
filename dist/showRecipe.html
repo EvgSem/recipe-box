@@ -7,18 +7,18 @@
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body onload="loadPage()">
-    <a href='/index.html'>back to all recipes</a>
-    <h1 id="recipeName">Show recipe-box</h1>
-    <button type='button' class='edit'>Edit</button>
-    <button type='button' class='delete'>Delete</button>
-    <br>
-    <table id="t_ingredients" border="1">
-        <tr>
-            <th>ingredient</th>
-            <th>amount</th>
-        </tr>
-    </table>
-    <br>
+<a href='/index.html'>back to all recipes</a>
+<h1 id="recipeName">Show recipe-box</h1>
+<button type='button' class='edit'>Edit</button>
+<button type='button' class='delete'>Delete</button>
+<br>
+<table id="t_ingredients" border="1">
+    <tr>
+        <th>ingredient</th>
+        <th>amount</th>
+    </tr>
+</table>
+<br>
 <script>
     function loadPage (){
         var recipeID = location.search.split('id=')[1];
