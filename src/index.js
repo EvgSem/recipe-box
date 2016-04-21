@@ -35,9 +35,12 @@ app.post('/addRecipe', function (req, res) {
 app.post('/editRecipe', function (req, res) {
     let recipeId = req.param('id');
     let recipeName = req.param('name');
+    let ingredients = req.param('ingredients');
+    console.log(ingredients);
     let promise = new Promise(function(resolve) {
         recipeModel.findById(recipeId, function (err, recipe) {
             recipe.name = recipeName;
+            recipe.ingredients = ingredients;
             recipe.save(function (err) {
                 if (err) return console.error(err);
             });
